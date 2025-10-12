@@ -1,5 +1,6 @@
 package com.org.LibraryApplication.service;
 
+import com.org.LibraryApplication.dto.RegisterDto;
 import com.org.LibraryApplication.dto.RoleDto;
 import com.org.LibraryApplication.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class ValidationServiceImpl implements ValidationService{
         if(!validateRole.isEmpty()){
             return validateRole;
         }
+        return List.of();
+    }
+
+    @Override
+    public List<String> validateRegisterUser(RegisterDto regDto) {
         return List.of();
     }
 }

@@ -24,9 +24,9 @@ public class RegisterEntity {
     private String email;
     @Column(name = "contact",nullable = false,length = 12)
     private String contact;
-    @Column(name = "password",nullable = false,length = 20)
+    @Column(name = "password",nullable = false)
     private String password;
-    @Column(name = "confirmpassword",nullable = false,length = 20)
+    @Column(name = "confirmpassword",nullable = false)
     private String confirmPassword;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roleid",nullable = false)

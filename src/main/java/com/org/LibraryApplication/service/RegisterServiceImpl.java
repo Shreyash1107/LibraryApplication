@@ -19,15 +19,17 @@ public class RegisterServiceImpl implements RegisterService{
     private RoleRepository roleRepo;
     @Autowired
     private RegisterMapper regMapper;
+    @Autowired
+    private PasswordService passwordService;
     @Override
     public List<String> registerUsers(RegisterDto regDto) {
         List<String> saveUsers = new ArrayList<>();
-        String firstName = regDto.getFirstName().toUpperCase();
-        String lastName = regDto.getLastName().toUpperCase();
-        String email = regDto.getEmail().toLowerCase();
-        regDto.setFirstName(firstName);
-        regDto.setLastName(lastName);
-        regDto.setEmail(email);
+        String encryptedPassword = passwordService.encryptPassword(regDto.getPassword());
+        regDto.setFirstName(regDto.getFirstName().toUpperCase());
+        regDto.setLastName(regDto.getLastName().toUpperCase());
+        regDto.setEmail(regDto.getEmail().toLowerCase());
+        regDto.setPassword(encryptedPassword);
+        regDto.setConfirmPassword(encryptedPassword);
         RegisterEntity regEntity = regMapper.dtoToEntity(regDto);
         boolean isRoleExist = roleRepo.existsById(regDto.getRolesAssigned().getId());
         if(isRoleExist){
