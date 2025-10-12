@@ -22,4 +22,14 @@ public class RoleController {
             return new ResponseEntity<>(saveRoles,HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getRoles/{id}")
+    public ResponseEntity<List<RoleDto>> getRolesById(@PathVariable Integer id){
+        List<RoleDto> roleById = roleService.getRoles(id);
+        if(roleById!=null){
+            return new ResponseEntity<>(roleById,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+    }
 }
