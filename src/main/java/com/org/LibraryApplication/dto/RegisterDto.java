@@ -1,5 +1,6 @@
 package com.org.LibraryApplication.dto;
 
+import com.org.LibraryApplication.entity.RoleEntity;
 import lombok.*;
 
 @Data
@@ -15,5 +16,5 @@ public class RegisterDto {
     private String contact;
     private String password;
     private String confirmPassword;
-    private RoleDto roles;
+    private RoleDto rolesAssigned;
 }

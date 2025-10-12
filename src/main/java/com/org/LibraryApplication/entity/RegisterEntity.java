@@ -24,11 +24,11 @@ public class RegisterEntity {
     private String email;
     @Column(name = "contact",nullable = false,length = 12)
     private String contact;
-    @Column(name = "password",nullable = false,length = 8)
+    @Column(name = "password",nullable = false,length = 20)
     private String password;
-    @Column(name = "confirmpassword",nullable = false,length = 8)
+    @Column(name = "confirmpassword",nullable = false,length = 20)
     private String confirmPassword;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "roleid", referencedColumnName = "id",nullable = false)
-    private RoleEntity roleEntity;
+    @JoinColumn(name = "roleid",nullable = false)
+    private RoleEntity rolesAssigned;
 }
