@@ -22,8 +22,10 @@ public class RegisterController {
         List<String> savedUsers = regService.registerUsers(regDto);
         if(savedUsers.get(0).contains("Successfully")){
             return new ResponseEntity<>(savedUsers, HttpStatus.OK);
-        }else{
+        }else if (savedUsers.get(0).contains(" not found")){
             return new ResponseEntity<>(savedUsers,HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(savedUsers,HttpStatus.BAD_REQUEST);
         }
     }
 }
