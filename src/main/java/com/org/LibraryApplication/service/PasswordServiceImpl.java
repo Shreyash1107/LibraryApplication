@@ -10,7 +10,7 @@ import java.util.Base64;
 
 @Service
 public class PasswordServiceImpl implements PasswordService {
-    String secretKey;
+    private final String secretKey;
 
     public PasswordServiceImpl(@Value(("${security.encryption.key}")) String secretKey) {
         this.secretKey = secretKey;
@@ -32,12 +32,13 @@ public class PasswordServiceImpl implements PasswordService {
     @Override
     public String decryptPassword(String encryptedPassword) {
         try {
-            SecretKey secret = new SecretKeySpec(secretKey.getBytes(), "AES");
+            SecretKey secret1 = new SecretKeySpec(secretKey.getBytes(), "AES");
             Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secret);
+            cipher.init(Cipher.DECRYPT_MODE, secret1);
             byte[] decryptedPassword = cipher.doFinal(Base64.getDecoder().decode(encryptedPassword));
             return new String(decryptedPassword);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error in Decrypting Password");
         }
     }
