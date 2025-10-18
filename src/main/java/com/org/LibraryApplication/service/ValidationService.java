@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ValidationService {
     List<String> validateRoles(RoleDto roleDto);
-    List<String> validateRegisterUser(RegisterDto regDto);
+    List<String> validateUsers(RegisterDto regDto);
 }

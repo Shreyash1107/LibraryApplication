@@ -20,7 +20,7 @@ public class RegisterController {
     @PostMapping("/saveUsers")
     public ResponseEntity<List<String>> saveUsers(@RequestBody RegisterDto regDto){
         List<String> savedUsers = regService.registerUsers(regDto);
-        if(savedUsers.get(0).contains("Saved Successfully")){
+        if(savedUsers.get(0).contains("Successfully")){
             return new ResponseEntity<>(savedUsers, HttpStatus.OK);
         }else{
             return new ResponseEntity<>(savedUsers,HttpStatus.NOT_FOUND);

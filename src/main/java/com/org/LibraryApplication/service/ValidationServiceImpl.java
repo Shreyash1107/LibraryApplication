@@ -2,6 +2,7 @@ package com.org.LibraryApplication.service;
 
 import com.org.LibraryApplication.dto.RegisterDto;
 import com.org.LibraryApplication.dto.RoleDto;
+import com.org.LibraryApplication.repository.RegisterRepository;
 import com.org.LibraryApplication.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class ValidationServiceImpl implements ValidationService{
     @Autowired
     private RoleRepository roleRepo;
+    @Autowired
+    private RegisterRepository regRepo;
     @Override
     public List<String> validateRoles(RoleDto roleDto) {
         List<String> validateRole = new ArrayList<>();
@@ -36,7 +39,14 @@ public class ValidationServiceImpl implements ValidationService{
     }
 
     @Override
-    public List<String> validateRegisterUser(RegisterDto regDto) {
-        return List.of();
+    public List<String> validateUsers(RegisterDto regDto) {
+        List<String> registerUsers = new ArrayList<>();
+        if(regDto == null){
+            registerUsers.add("All Fields are required");
+        }
+        if(regDto.getFirstName().trim().isEmpty()){
+            registerUsers.add("First Name cannot be Empty");
+        }
+        return null;
     }
 }

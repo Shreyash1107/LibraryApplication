@@ -34,7 +34,7 @@ public class RegisterServiceImpl implements RegisterService{
         boolean isRoleExist = roleRepo.existsById(regDto.getRolesAssigned().getId());
         if(isRoleExist){
             registerRepo.save(regEntity);
-            saveUsers.add("User Saved Successfully");
+            saveUsers.add("User Registered Successfully");
         }else{
             saveUsers.add(regDto.getRolesAssigned().getId() + " not found");
         }
