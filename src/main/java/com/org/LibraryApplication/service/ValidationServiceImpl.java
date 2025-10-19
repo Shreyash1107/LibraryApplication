@@ -7,7 +7,6 @@ import com.org.LibraryApplication.repository.RegisterRepository;
 import com.org.LibraryApplication.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,18 +26,14 @@ public class ValidationServiceImpl implements ValidationService {
         List<String> validateRole = new ArrayList<>();
         if (roleDto == null) {
             validateRole.add("Role and Description is Required");
-        }
-        if (roleDto.getRoles().trim().isEmpty()) {
+        }if (roleDto.getRoles().trim().isEmpty()) {
             validateRole.add("Role is Required");
-        }
-        boolean isExist = roleRepo.existsByRoles(roleDto.getRoles());
+        }boolean isExist = roleRepo.existsByRoles(roleDto.getRoles());
         if (isExist) {
             validateRole.add(roleDto.getRoles() + " already Exists");
-        }
-        if (roleDto.getDescription().trim().isEmpty()) {
+        }if (roleDto.getDescription().trim().isEmpty()) {
             validateRole.add("Role Description is Required");
-        }
-        if (!validateRole.isEmpty()) {
+        }if (!validateRole.isEmpty()) {
             return validateRole;
         }
         return List.of();
@@ -69,20 +64,20 @@ public class ValidationServiceImpl implements ValidationService {
             registerUsers.add("Please Re-type the created Password");
         }if (regDto.getRolesAssigned() == null) {
             registerUsers.add("Please Provide Role Details");
-        }if(!regDto.getPassword().equals(regDto.getConfirmPassword())){
+        }if (!regDto.getPassword().equals(regDto.getConfirmPassword())) {
             registerUsers.add("PassWord and Confirm Password should match");
         }
         String enteredPassword = regDto.getPassword();
         List<RegisterDto> registeredUsers = regRepo.findAll()
                 .stream().map(regMapper::entityToDto).collect(Collectors.toList());
-        for(RegisterDto reg : registeredUsers){
+        for (RegisterDto reg : registeredUsers) {
             String decryptedPassword = passService.decryptPassword(reg.getPassword());
-            if(decryptedPassword.equals(enteredPassword)){
+            if (decryptedPassword.equals(enteredPassword)) {
                 registerUsers.add("Password Already Exists");
                 break;
             }
         }
-        if(!registerUsers.isEmpty()){
+        if (!registerUsers.isEmpty()) {
             return registerUsers;
         }
         return List.of();
