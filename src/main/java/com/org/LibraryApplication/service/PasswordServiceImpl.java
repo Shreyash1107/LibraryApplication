@@ -23,7 +23,6 @@ public class PasswordServiceImpl implements PasswordService {
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, secret);
             byte[] encryptedPassword = cipher.doFinal(password.getBytes());
-            System.out.println(encryptedPassword.toString());
             return Base64.getEncoder().encodeToString(encryptedPassword);
         } catch (Exception e) {
             throw new RuntimeException("Encryption Failed");

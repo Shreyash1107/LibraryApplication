@@ -24,12 +24,12 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public List<String> validateRoles(RoleDto roleDto) {
         List<String> validateRole = new ArrayList<>();
+        boolean isExist = roleRepo.existsByRoles(roleDto.getRoles());
         if (roleDto == null) {
             validateRole.add("Role and Description is Required");
         }if (roleDto.getRoles().trim().isEmpty()) {
             validateRole.add("Role is Required");
-        }boolean isExist = roleRepo.existsByRoles(roleDto.getRoles());
-        if (isExist) {
+        }if (isExist) {
             validateRole.add(roleDto.getRoles() + " already Exists");
         }if (roleDto.getDescription().trim().isEmpty()) {
             validateRole.add("Role Description is Required");
@@ -76,8 +76,12 @@ public class ValidationServiceImpl implements ValidationService {
                 registerUsers.add("Password Already Exists");
                 break;
             }
-        }
-        if (!registerUsers.isEmpty()) {
+        }if(regDto.getRolesAssigned().getId() == 1){
+            boolean adminExists = regRepo.existsByRolesAssignedId(1);
+            if(adminExists){
+                registerUsers.add("ADMIN Already exists");
+            }
+        }if (!registerUsers.isEmpty()) {
             return registerUsers;
         }
         return List.of();

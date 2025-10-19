@@ -18,7 +18,6 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
     @Autowired
     private ValidationService validateService;
-
     @Override
     public List<String> saveRoles(RoleDto roleDto) {
         List<String> saveRoles = new ArrayList<>();
