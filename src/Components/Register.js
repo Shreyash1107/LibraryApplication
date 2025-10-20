@@ -1,6 +1,7 @@
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react"
+import "./register.css";
 const RegisterComponent = () => {
     const [reg, setReg] = useState({
         firstName: "",
@@ -28,7 +29,7 @@ const RegisterComponent = () => {
         event.preventDefault();
     }
     return (<>
-        <div classsName="wrapper">
+        <div className="register-page">
             <div className="register-card">
                 <div className="register-header">
                     <h2 className="register-title">Create an Account</h2>
@@ -84,7 +85,7 @@ const RegisterComponent = () => {
                         <div className="field full-width">
                             <label htmlFor="role" className="label">
                                 <select name="role" value={reg.role} onChange={handleFormFields}>
-                                    <option value="">Select Role</option>
+                                    <option value="" disabled>Select Role</option>
                                     <option value="admin">Admin</option>
                                     <option value="user">Student</option>
                                     <option value="user">Librarian</option>
@@ -97,7 +98,7 @@ const RegisterComponent = () => {
                             </button>
                         </div>
                         <div className="small-muted">
-                            By Registering you agree to the library's terms and privacy policy.
+                            <b>By Registering you agree to the library's terms and privacy policy.</b>
                         </div>
                     </div>
                 </div>
