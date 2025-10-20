@@ -89,6 +89,13 @@ select {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: left;
+}
+
 .password-row {
     position: relative;
     display: flex;

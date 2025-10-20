@@ -1,7 +1,9 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios";
 import "./register.css";
+import Swal from "sweetalert2";
 const RegisterComponent = () => {
     const [reg, setReg] = useState({
         firstName: "",
@@ -10,8 +12,9 @@ const RegisterComponent = () => {
         contact: "",
         password: "",
         confirmPassword: "",
-        role: ""
+        roleId: ""
     });
+    const [roles, setRoles] = useState([]);
     const [error, setError] = useState({
         firstName: "",
         lastName: "",
@@ -23,11 +26,77 @@ const RegisterComponent = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    useEffect(() => {
+        axios.get("http://localhost:9090/roles/viewRoles")
+            .then((res) => setRoles(res.data))
+            .catch((err) => console.log("Error in Fetching Roles: ", err));
+    }, []);
     const handleFormFields = (event) => {
-        setReg(event.target.value);
+        setReg({ ...reg, [event.target.name]: event.target.value });
     }
     const handleSubmitDetails = (event) => {
         event.preventDefault();
+        const { firstName, lastName, email, contact, password, confirmPassword, roleId } = reg;
+        let hasError = false;
+        const regError = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            contact: "",
+            password: "",
+            confirmPassword: "",
+            role: ""
+        }
+        if (!firstName || firstName.trim() === "") {
+            regError.firstName = "First Name Cannot be Empty";
+            hasError = true;
+        } else if (!(/^[A-Za-z]*$/).test(firstName)) {
+            regError.firstName = "First Name should contain only alphabets";
+            hasError = true;
+        } if (!lastName || lastName.trim() === "") {
+            regError.lastName = "Last Name Cannot be Empty";
+            hasError = true;
+        } if (!(/^[A-Za-z]*$/).test(lastName)) {
+            regError.lastName = "Last Name should contain only alphabets";
+            hasError = true;
+        } if (!email || email.trim() === "") {
+            regError.email = "Email Cannot be Empty";
+            hasError = true;
+        } else if (!(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/).test(email)) {
+            regError.email = "Invalid Email Format";
+            hasError = true;
+        } if (!contact || contact.trim() === "") {
+            regError.contact = "Contact Cannot be Empty";
+            hasError = true;
+        } else if (!(/^[0-9]{10}$/).test(contact)) {
+            regError.contact = "Contact should be a 10-digit number";
+            hasError = true;
+        } if (!password || password.trim() === "") {
+            regError.password = "Password Cannot be Empty";
+            hasError = true;
+        } else if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/).test(password)) {
+            regError.password = "Provide Valid Password";
+            hasError = true;
+        } if (!confirmPassword || confirmPassword.trim() === "") {
+            regError.confirmPassword = "Please Retype the Password";
+            hasError = true;
+        } else if (confirmPassword !== password) {
+            regError.confirmPassword = "Password Fields should Match";
+            hasError = true;
+        } if (roleId === "") {
+            regError.role = "Select a Role";
+            hasError = true;
+        }
+        setError(regError);
+        if(!hasError){
+            axios.post("http://localhost:9090/register/saveUsers",reg);
+            Swal.fire({
+                title:"Great!",
+                text:`Registration Successfull for ${firstName}`,
+                icon:"success",
+                timer:1500
+            });
+        }
     }
     return (<>
         <div className="register-page">
@@ -41,6 +110,7 @@ const RegisterComponent = () => {
                             </label>
                             <input type="text" name="firstName" value={reg.firstName}
                                 onChange={handleFormFields} autoComplete="off" placeholder="First Name" />
+                            <span className="error-message">{error.firstName}</span>
                         </div>
                         <div className="field">
                             <label htmlFor="lastName" className="label">
@@ -48,6 +118,7 @@ const RegisterComponent = () => {
                             </label>
                             <input type="text" name="lastName" value={reg.lastName}
                                 onChange={handleFormFields} autoComplete="off" placeholder="Last Name" />
+                            <span className="error-message">{error.lastName}</span>
                         </div>
                         <div className="field full-width">
                             <label htmlFor="email" className="label">
@@ -55,6 +126,7 @@ const RegisterComponent = () => {
                             </label>
                             <input type="email" name="email" value={reg.email}
                                 onChange={handleFormFields} autoComplete="off" placeholder="Email-Id" />
+                            <span className="error-message">{error.email}</span>
                         </div>
                         <div className="field full-width">
                             <label htmlFor="contact" className="label">
@@ -62,6 +134,7 @@ const RegisterComponent = () => {
                             </label>
                             <input type="number" name="contact" value={reg.contact}
                                 onChange={handleFormFields} autoComplete="off" placeholder="Contact" />
+                            <span className="error-message">{error.contact}</span>
                         </div>
                         <div className="field">
                             <label htmlFor="password" className="label">
@@ -86,6 +159,7 @@ const RegisterComponent = () => {
                                     <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                 </button>
                             </div>
+                            <span className="error-message">{error.password}</span>
                         </div>
                         <div className="field">
                             <label htmlFor="confirmPassword" className="label">
@@ -110,17 +184,21 @@ const RegisterComponent = () => {
                                     <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
                                 </button>
                             </div>
+                            <span className="error-message">{error.confirmPassword}</span>
                         </div>
                         <div className="field full-width">
                             <label htmlFor="role" className="label">
                                 Select Role
                             </label>
-                            <select name="role" value={reg.role} onChange={handleFormFields}>
+                            <select name="roleId" value={reg.roleId} onChange={handleFormFields}>
                                 <option value="" disabled>Select Role</option>
-                                <option value="admin">Admin</option>
-                                <option value="user">Student</option>
-                                <option value="user">Librarian</option>
+                                {roles.map((role) => (
+                                    <option key={role.id} value={role.id}>
+                                        {role.roles}
+                                    </option>
+                                ))}
                             </select>
+                            <span className="error-message">{error.role}</span>
                         </div>
                     </div>
                 </div>
