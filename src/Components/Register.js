@@ -1,4 +1,4 @@
-import { faEye } from "@fortawesome/free-regular-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react"
 import "./register.css";
@@ -22,6 +22,7 @@ const RegisterComponent = () => {
         role: ""
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const handleFormFields = (event) => {
         setReg(event.target.value);
     }
@@ -67,11 +68,22 @@ const RegisterComponent = () => {
                                 Password
                             </label>
                             <div className="password-row">
-                                <input type={showPassword ? "text" : "password"} name="password" value={reg.password}
-                                    onChange={handleFormFields} autoComplete="off" placeholder="Password" />
-                                <button type="submit" onClick={() => setShowPassword(true)}
-                                    className="password-toggle" aria-label="Toggle Password Visibility">
-                                    <FontAwesomeIcon icon={faEye} />{showPassword ? "Hide" : "Show"}
+                                <input
+                                    type={!showPassword ? "text" : "password"}
+                                    name="password"
+                                    value={reg.password}
+                                    onChange={handleFormFields}
+                                    autoComplete="off"
+                                    placeholder="Password"
+                                    className="input"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="password-toggle"
+                                    aria-label="Toggle password visibility"
+                                >
+                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                 </button>
                             </div>
                         </div>
@@ -79,28 +91,43 @@ const RegisterComponent = () => {
                             <label htmlFor="confirmPassword" className="label">
                                 Confirm Password
                             </label>
-                            <input type={showPassword ? "text" : "password"} name="confirmPassword"
-                                value={reg.confirmPassword} onChange={handleFormFields} placeholder="Re-type Password" />
+                            <div className="password-row">
+                                <input
+                                    type={!showConfirmPassword ? "text" : "password"}
+                                    name="confirmPassword"
+                                    value={reg.confirmPassword}
+                                    onChange={handleFormFields}
+                                    placeholder="Re-type Password"
+                                    className="input"
+                                    autoComplete="off"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="password-toggle"
+                                    aria-label="Toggle Confirm Password Visibility"
+                                >
+                                    <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                                </button>
+                            </div>
                         </div>
                         <div className="field full-width">
                             <label htmlFor="role" className="label">
-                                <select name="role" value={reg.role} onChange={handleFormFields}>
-                                    <option value="" disabled>Select Role</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="user">Student</option>
-                                    <option value="user">Librarian</option>
-                                </select>
+                                Select Role
                             </label>
-                        </div>
-                        <div className="actions">
-                            <button type="submit" onClick={handleSubmitDetails} className="btn-outline">
-                                Register
-                            </button>
-                        </div>
-                        <div className="small-muted">
-                            <b>By Registering you agree to the library's terms and privacy policy.</b>
+                            <select name="role" value={reg.role} onChange={handleFormFields}>
+                                <option value="" disabled>Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">Student</option>
+                                <option value="user">Librarian</option>
+                            </select>
                         </div>
                     </div>
+                </div>
+                <div className="actions">
+                    <button type="submit" name="Register" value="reg" onClick={handleSubmitDetails}>
+                        Register
+                    </button>
                 </div>
             </div>
         </div>
