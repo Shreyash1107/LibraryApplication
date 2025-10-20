@@ -79,7 +79,7 @@ const RegisterComponent = () => {
                                 Confirm Password
                             </label>
                             <input type={showPassword ? "text" : "password"} name="confirmPassword"
-                            value={reg.confirmPassword} onChange={handleFormFields} placeholder="Re-type Password"/>
+                                value={reg.confirmPassword} onChange={handleFormFields} placeholder="Re-type Password" />
                         </div>
                         <div className="field full-width">
                             <label htmlFor="role" className="label">
@@ -90,6 +90,14 @@ const RegisterComponent = () => {
                                     <option value="user">Librarian</option>
                                 </select>
                             </label>
+                        </div>
+                        <div className="actions">
+                            <button type="submit" onClick={handleSubmitDetails} className="btn-outline">
+                                Register
+                            </button>
+                        </div>
+                        <div className="small-muted">
+                            By Registering you agree to the library's terms and privacy policy.
                         </div>
                     </div>
                 </div>
