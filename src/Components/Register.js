@@ -87,16 +87,38 @@ const RegisterComponent = () => {
             regError.role = "Select a Role";
             hasError = true;
         }
-        setError(regError);
         if(!hasError){
-            axios.post("http://localhost:9090/register/saveUsers",reg);
+            const payload = {
+                ...reg,
+                rolesAssigned: { id: reg.roleId }
+            };
+            axios.post("http://localhost:9090/register/saveUsers",payload);
             Swal.fire({
                 title:"Great!",
                 text:`Registration Successfull for ${firstName}`,
                 icon:"success",
                 timer:1500
             });
+            setReg({
+                firstName: "",
+                lastName: "",
+                email: "",
+                contact: "",
+                password: "",
+                confirmPassword: "",
+                roleId: ""
+            });
         }
+        setError(regError);
+        setReg({
+            firstName: "",
+            lastName: "",
+            email: "",
+            contact: "",
+            password: "",
+            confirmPassword: "",
+            roleId: ""
+        });
     }
     return (<>
         <div className="register-page">
