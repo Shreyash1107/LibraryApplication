@@ -32,4 +32,10 @@ public class RoleController {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/viewRoles")
+    public ResponseEntity<List<RoleDto>> viewRoles(){
+        List<RoleDto> viewRoles = roleService.getRoles();
+        return new ResponseEntity<>(viewRoles,HttpStatus.OK);
+    }
 }

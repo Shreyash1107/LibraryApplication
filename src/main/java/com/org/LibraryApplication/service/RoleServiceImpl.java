@@ -46,4 +46,10 @@ public class RoleServiceImpl implements RoleService {
            return null;
         }
     }
+
+    @Override
+    public List<RoleDto> getRoles() {
+        return roleRepo.findAll()
+                .stream().map(roleMapper::entityToDto).toList();
+    }
 }
