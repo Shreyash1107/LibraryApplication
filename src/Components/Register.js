@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import axios from "axios";
 import "./register.css";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 const RegisterComponent = () => {
     const [reg, setReg] = useState({
         firstName: "",
@@ -256,6 +257,9 @@ const RegisterComponent = () => {
                     <button type="submit" name="Register" value="reg" onClick={handleSubmitDetails}>
                         Register
                     </button>
+                </div>
+                <div className="login-redirect">
+                    <p>Already have an account? <Link to="/">Login Here</Link></p>
                 </div>
             </div>
         </div>
