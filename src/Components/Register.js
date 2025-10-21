@@ -96,7 +96,7 @@ const RegisterComponent = () => {
                 .then((res) => {
                     Swal.fire({
                         title: "Great!",
-                        text: `Registration Successful for ${reg.firstName}`,
+                        text: `Registration Successful for ${reg.firstName} and email sent for Verification`,
                         icon: "success",
                         timer: 1500,
                     });
