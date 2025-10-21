@@ -87,27 +87,55 @@ const RegisterComponent = () => {
             regError.role = "Select a Role";
             hasError = true;
         }
-        if(!hasError){
+        if (!hasError) {
             const payload = {
                 ...reg,
                 rolesAssigned: { id: reg.roleId }
             };
-            axios.post("http://localhost:9090/register/saveUsers",payload);
-            Swal.fire({
-                title:"Great!",
-                text:`Registration Successfull for ${firstName}`,
-                icon:"success",
-                timer:1500
-            });
-            setReg({
-                firstName: "",
-                lastName: "",
-                email: "",
-                contact: "",
-                password: "",
-                confirmPassword: "",
-                roleId: ""
-            });
+            axios.post("http://localhost:9090/register/saveUsers", payload)
+                .then((res) => {
+                    Swal.fire({
+                        title: "Great!",
+                        text: `Registration Successful for ${reg.firstName}`,
+                        icon: "success",
+                        timer: 1500,
+                    });
+                    setReg({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        contact: "",
+                        password: "",
+                        confirmPassword: "",
+                        roleId: ""
+                    });
+                    setError({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        contact: "",
+                        password: "",
+                        confirmPassword: "",
+                        role: ""
+                    });
+                })
+                .catch((err) => {
+                    console.log("Error in Registration:", err);
+                    let messages = [];
+                    if (err.response?.data) {
+                        if (Array.isArray(err.response.data)) {
+                            messages = err.response.data;
+                        } else {
+                            messages = [err.response.data.message || err.response.data];
+                        }
+                    }
+                    Swal.fire({
+                        title: "Validation Errors",
+                        html: messages.map(msg => `<p>${msg}</p>`).join(""),
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                });
         }
         setError(regError);
         setReg({
