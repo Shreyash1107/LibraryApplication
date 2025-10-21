@@ -23,7 +23,8 @@ public class RegisterServiceImpl implements RegisterService {
     private PasswordService passwordService;
     @Autowired
     private ValidationService validService;
-
+    @Autowired
+    private EmailService emailService;
     @Override
     public List<String> registerUsers(RegisterDto regDto) {
         List<String> saveUsers = new ArrayList<>();
@@ -41,6 +42,7 @@ public class RegisterServiceImpl implements RegisterService {
             boolean isRoleExist = roleRepo.existsById(regDto.getRolesAssigned().getId());
             if (isRoleExist) {
                 registerRepo.save(regEntity);
+                emailService.sendEmailOnRegistration(regDto.getEmail(),regDto.getFirstName(), regDto.getLastName());
                 saveUsers.add("User Registered Successfully");
             } else {
                 saveUsers.add(regDto.getRolesAssigned().getId() + " not found");
