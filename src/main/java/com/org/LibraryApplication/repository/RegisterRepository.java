@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RegisterRepository extends JpaRepository<RegisterEntity,Integer> {
     boolean existsByEmail(String email);
     boolean existsByContact(String contact);
     boolean existsByRolesAssignedId(Integer id);
-    @Query("select reg from RegisterEntity where reg.email =: email and reg.password =: password")
-    boolean login(@Param("email") String email, @Param("password") String password);
+    RegisterEntity findByEmail(String email);
 }

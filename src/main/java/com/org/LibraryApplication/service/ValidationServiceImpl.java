@@ -86,4 +86,17 @@ public class ValidationServiceImpl implements ValidationService {
         }
         return List.of();
     }
+
+    @Override
+    public List<String> validateLogin(String email, String password) {
+        List<String> errors = new ArrayList<>();
+        if(email == null || email.isEmpty()){
+            errors.add("Email is Required");
+        }if(password==null || password.isEmpty()){
+            errors.add("Password is Required");
+        }if(!errors.isEmpty()){
+            return errors;
+        }
+        return List.of();
+    }
 }

@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface RegisterService {
     List<String> registerUsers(RegisterDto regDto);
+    List<String> login(String email,String password);
 }
